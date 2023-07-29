@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pom.MainMenu;
 import pom.Onboarding;
+import pom.Paywall;
 
 import java.io.IOException;
 
@@ -19,7 +20,6 @@ import static java.time.Duration.ofSeconds;
 
 public class AndroidTest {
 
-    Console console = new Console();
     App app = new App();
 
     @BeforeAll
@@ -41,27 +41,23 @@ public class AndroidTest {
 
     @Test
     public void sampleTest() throws IOException, InterruptedException {
-        console.clearCache(app);
-        console.runApp(app);
+//        Console.clearCache(app);
+        Console.runApp(app);
 
-        Onboarding onboarding = new Onboarding(app);
-        onboarding
-                .clickAcceptButton()
-                    .clickContinueButton()
-                        .clickContinueButton()
-                            .clickContinueButton();
-
-        MainMenu mainMenu = new MainMenu(app);
-        mainMenu.clickCrownButton();
+//        Onboarding onboarding = new Onboarding(app);
+//        onboarding
+//                .clickAcceptButton()
+//                .clickContinueButton()
+//                .clickContinueButton()
+//                .clickContinueButton();
 
 
-//            new TouchAction(Setup.getDriver())
-//                    .press(point(919,2210))
-//                    .waitAction(waitOptions(ofSeconds(5)))
-//                    .release()
-//                    .perform();
+        new MainMenu(app).clickCrownButton();
+        new Paywall(app).clickGooglePlay();
 
-        console.clearCache(app);
+
+
+//        Console.clearCache(app);
 
 //        Console.closeApp();
 

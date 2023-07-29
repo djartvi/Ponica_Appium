@@ -1,5 +1,9 @@
 package apprunner;
 
+import io.appium.java_client.touch.offset.PointOption;
+
+import static io.appium.java_client.touch.offset.PointOption.point;
+
 public class App {
 
     public String packageName;
@@ -13,9 +17,18 @@ public class App {
     public String progressBar4;
     public String footerPaywallText;
     public String crownButton;
+    public PointOption verticalPaywallGooglePlayLink;
 
-    public App () {
-        switch(System.getProperty("appName")) {
+    public App() {
+        selectApp(System.getProperty("appName"));
+    }
+
+    public App(String anotherApp) {
+        selectApp(anotherApp);
+    }
+
+    public void selectApp(String appName) {
+        switch(appName) {
             case "xlsx":
                 this.selectXlsxReader();
                 break;
@@ -56,6 +69,7 @@ public class App {
         privacyPolicy = "//*[@text='Политика конфиденциальности']";
         footerPaywallText = "//*[@text='Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play']";
         crownButton = packageName + ":id/btn_purchase_premium";
+        verticalPaywallGooglePlayLink = point(919,2210);
     }
 
 }

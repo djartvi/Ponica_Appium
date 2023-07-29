@@ -3,8 +3,7 @@ package apprunner;
 import java.io.IOException;
 
 public class Console {
-    //поправить создание объекта класса App
-    private String packageName;
+
     private static Thread appiumThread;
     private static Process process;
 
@@ -19,7 +18,7 @@ public class Console {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
-                System.err.println("Appium thread was interrupted: " + e.getMessage());
+                System.out.println("=== Appium thread was interrupted ===");
             }
         });
 
@@ -36,20 +35,20 @@ public class Console {
         }
     }
 
-    private void executeCommand(String... command) throws IOException, InterruptedException {
+    private static void executeCommand(String... command) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.start().waitFor();
     }
 
-    public void runApp(App app) throws IOException, InterruptedException {
+    public static void runApp(App app) throws IOException, InterruptedException {
         executeCommand("adb", "shell", "monkey", "-p", app.packageName, "-c", "android.intent.category.LAUNCHER 1");
     }
 
-    public void closeApp(App app) throws IOException, InterruptedException {
+    public static void closeApp(App app) throws IOException, InterruptedException {
         executeCommand("adb", "shell", "am", "force-stop", app.packageName);
     }
 
-    public void clearCache(App app) throws IOException, InterruptedException {
+    public static void clearCache(App app) throws IOException, InterruptedException {
         executeCommand("adb", "shell", "pm", "clear", app.packageName);
     }
 

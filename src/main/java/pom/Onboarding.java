@@ -1,25 +1,20 @@
 package pom;
 
 import apprunner.App;
-import apprunner.Setup;
 import org.openqa.selenium.By;
 
-public class Onboarding {
+public class Onboarding extends Actions{
 
     private final By acceptButton;
     private final By buttonClose;
     private final By continueButton;
-//    private final By privacyPolicy;
+    private final By privacyPolicy;
 
     public Onboarding(App app) {
         acceptButton = By.xpath(app.buttonAccept);
         buttonClose = By.id(app.buttonClose);
         continueButton = By.xpath(app.buttonContinue);
-//        privacyPolicy = By.xpath(app.privacyPolicy);
-    }
-
-    public void clickButton(By by) {
-        Setup.getDriver().findElement(by).click();
+        privacyPolicy = By.xpath(app.privacyPolicy);
     }
 
     public Onboarding clickAcceptButton() {
@@ -27,10 +22,10 @@ public class Onboarding {
         return this;
     }
 
-//    public Onboarding clickPrivacyPolicy() {
-//        clickButton(privacyPolicy);
-//        return this;
-//    }
+    public Onboarding clickPrivacyPolicy() {
+        clickButton(privacyPolicy);
+        return this;
+    }
 
     public Onboarding clickButtonClose() {
         clickButton(buttonClose);
