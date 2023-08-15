@@ -3,12 +3,12 @@ package pom;
 import apprunner.App;
 import org.openqa.selenium.By;
 
-public class MainMenu extends Actions {
+public class MainMenuPage extends Action {
 
     private final By crownButton;
 
-    public MainMenu(App app) {
-        crownButton = By.id(app.crownButton);
+    public MainMenuPage(App app) {
+        crownButton = By.id(app.getCrownButtonLocator());
     }
 
     public void clickCrownButton() {

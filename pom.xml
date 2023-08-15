@@ -9,7 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <appName>xlsx</appName>
+        <appName>OldVoiceChanger</appName>
+        <device>samsung</device>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,6 +38,11 @@
             <artifactId>java-client</artifactId>
             <version>8.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -48,6 +54,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <appName>${appName}</appName>
+                        <device>${device}</device>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
