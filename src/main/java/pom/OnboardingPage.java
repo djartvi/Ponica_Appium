@@ -1,20 +1,23 @@
 package pom;
 
 import apprunner.App;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 
-public class OnboardingPage extends Action {
+public class OnboardingPage extends CommonFunctions {
 
     private final By acceptButton;
     private final By buttonClose;
     private final By continueButton;
     private final By privacyPolicy;
 
-    public OnboardingPage(App app) {
+    public OnboardingPage(App app, AndroidDriver driver) {
+        super(app, driver);
+
         acceptButton = By.id(app.getButtonAcceptLocator());
         buttonClose = By.id(app.getButtonCloseLocator());
         continueButton = By.id(app.getButtonContinueLocator());
-        privacyPolicy = By.xpath(app.getPrivacyPolicyLocator());
+        privacyPolicy = By.id(app.getPrivacyPolicyLocator());
     }
 
     public OnboardingPage clickAcceptButton() {
@@ -38,6 +41,14 @@ public class OnboardingPage extends Action {
     }
 
     public boolean isValidAcceptButtonText() {
-        return isElementContainsText(acceptButton, "Согласен");
+        System.out.println(app.getButtonAcceptText());
+        System.out.println(driver.findElement(By.id(app.getButtonAcceptLocator())).getText());
+        return isElementContainsText(acceptButton, app.getButtonAcceptText());
     }
+
+    public boolean isValidPrivacyText() {
+        return isElementContainsText(privacyPolicy, app.getPrivacyPolicyText()) ;
+
+    }
+
 }

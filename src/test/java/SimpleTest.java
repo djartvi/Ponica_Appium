@@ -11,7 +11,8 @@ public class SimpleTest {
     @Test
     public void simpleTest() throws IOException, InterruptedException {
 
-        Console.runApp(app);
+        System.out.println(app.getPackageName());
+//
         System.out.println(Console.getVersionName(app));
     }
 

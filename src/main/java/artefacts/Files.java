@@ -1,2 +1,5 @@
-package artefacts;public class Files {
+package artefacts;
+
+public class Files {
+
 }

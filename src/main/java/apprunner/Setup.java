@@ -8,32 +8,31 @@ import java.time.Duration;
 
 public class Setup {
 
-    private static final DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-    private static AndroidDriver driver;
-
-    public static AndroidDriver getDriver() {
-        return driver;
-    }
+    private static final byte WAITING = 10;
+    private static final DesiredCapabilities DESIRED_CAPABILITIES = new DesiredCapabilities();
 
     public static void setDeviceCapabilities() {
-        desiredCapabilities.setCapability("platformName", "Android");
-        desiredCapabilities.setCapability("appium:ensureWebviewsHavePages", true);
-        desiredCapabilities.setCapability("appium:nativeWebScreenshot", true);
-        desiredCapabilities.setCapability("appium:connectHardwareKeyboard", true);
+        DESIRED_CAPABILITIES.setCapability("platformName", "Android");
+        DESIRED_CAPABILITIES.setCapability("appium:ensureWebviewsHavePages", true);
+        DESIRED_CAPABILITIES.setCapability("appium:nativeWebScreenshot", true);
+        DESIRED_CAPABILITIES.setCapability("appium:connectHardwareKeyboard", true);
+//        DESIRED_CAPABILITIES.setCapability("appium:automationName", "UiAutomator2");
     }
 
-    public static void runDriver() {
+    public AndroidDriver runAndroidDriver() {
         URL remoteUrl;
 
         try {
             remoteUrl = new URL("http://0.0.0.0:4723/wd/hub");
         } catch (Exception e) {
             e.printStackTrace();
-            return;
+            return null;
         }
 
-        driver = new AndroidDriver(remoteUrl, desiredCapabilities);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        AndroidDriver driver = new AndroidDriver(remoteUrl, DESIRED_CAPABILITIES);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(WAITING));
+
+        return driver;
     }
 
 }

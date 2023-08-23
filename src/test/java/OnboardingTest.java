@@ -1,36 +1,31 @@
-import apprunner.App;
 import apprunner.Console;
 import apprunner.Setup;
-import io.appium.java_client.android.AndroidDriver;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+import org.openqa.selenium.By;
+import pom.CommonFunctions;
 import pom.OnboardingPage;
 
 import java.io.IOException;
 
-public class AndroidTest extends Base {
+public class OnboardingTest extends Base {
 
     @Test
-    public void simpleTest() throws IOException, InterruptedException {
-        Console.clearCache(app);
+    public void runApp() throws IOException, InterruptedException {
         Console.runApp(app);
-        AndroidDriver driver = new Setup().runAndroidDriver();
 
-//        new OnboardingPage(app)
-//                .clickAcceptButton()
-//                .clickContinueButton()
-//                .clickContinueButton()
-//                .clickContinueButton();
-        System.out.println(new OnboardingPage(app, driver).isValidAcceptButtonText());
-        System.out.println(new OnboardingPage(app, driver).isValidPrivacyText());
+        OnboardingPage onboardingPage = new OnboardingPage(app, driver);
+        System.out.println(onboardingPage.isValidPrivacyText());
+        System.out.println(onboardingPage.isValidAcceptButtonText());
 
-//        new PaywallPage(app).clickGooglePlay();
+//        onboardingPage.navigateBack();
+//        boolean isAppOnScreen = onboardingPage.isAppOnScreen(app);
 //
-//        new Action().slowSwipeUp();
-
-        Console.clearCache(app);
-
-        Console.closeApp(app);
+//        Console.runApp(app);
+//        System.out.println(onboardingPage.isValidAcceptButtonText());
+//
+//        Console.closeApp(app);
     }
 }
 
