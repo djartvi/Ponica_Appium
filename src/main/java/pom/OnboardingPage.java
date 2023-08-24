@@ -41,14 +41,11 @@ public class OnboardingPage extends CommonFunctions {
     }
 
     public boolean isValidAcceptButtonText() {
-        System.out.println(app.getButtonAcceptText());
-        System.out.println(driver.findElement(By.id(app.getButtonAcceptLocator())).getText());
         return isElementContainsText(acceptButton, app.getButtonAcceptText());
     }
 
     public boolean isValidPrivacyText() {
         return isElementContainsText(privacyPolicy, app.getPrivacyPolicyText()) ;
-
     }
 
 }

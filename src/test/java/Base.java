@@ -30,6 +30,7 @@ public class Base {
     public void runDriver() throws IOException, InterruptedException {
         driver = new Setup().runAndroidDriver();
         Console.clearCache(app);
+        Console.runApp(app);
     }
 
     @AfterEach

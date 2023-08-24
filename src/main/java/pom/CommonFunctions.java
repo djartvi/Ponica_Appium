@@ -4,10 +4,11 @@ import apprunner.App;
 import apprunner.Console;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.io.BufferedReader;
@@ -83,25 +84,24 @@ public class CommonFunctions {
     boolean isElementContainsText(By by, String text) {
         WebElement parentElement = driver.findElement(by);
         String extractText = parentElement.getText();
-        System.err.println(extractText);
+        String[] split = text.split(" ");
 
+        // если в элементе нет текста, то ищем в дочерних, при этом игнорируем пробелы, иначе текст не совпадает
         if (extractText.isBlank()) {
-            By childElement = By.xpath("//*[contains(@text, '" + text + "')]");
-            System.out.println("текст в дочернем");
-            return parentElement.findElements(childElement).size() > 0;
-        } else {
-            String[] splitted = text.split(" ");
-            boolean check = true;
-            for (String s : splitted) {
-                if (!extractText.contains(s)) {
-                    check = false;
-                    System.out.println("не прошли проверку");
-                    break;
+            for (String s : split) {
+                By childElement = By.xpath("//*[contains(@text, '" + s + "')]");
+                if (parentElement.findElements(childElement).isEmpty()) {
+                    return false;
                 }
             }
-            return check;
+        } else {
+            for (String s : split) {
+                if (!extractText.contains(s)) {
+                    return false;
+                }
+            }
         }
-
+        return true;
     }
 
     public boolean isAppOnScreen(App app) throws IOException, InterruptedException {
@@ -109,7 +109,6 @@ public class CommonFunctions {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             process.waitFor();
-
             return reader.lines()
                     .anyMatch(line -> line.contains(app.getPackageName()));
         }
