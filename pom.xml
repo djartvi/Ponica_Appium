@@ -9,8 +9,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <appName>OldVoiceChanger</appName>
+        <appName>VoiceChangerNew</appName>
+        <appiumLog>false</appiumLog>
         <device>samsung</device>
+        <fb>com.google.firebase</fb>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,6 +45,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -54,6 +61,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <appName>${appName}</appName>
+                        <appiumLog>${appiumLog}</appiumLog>
                         <device>${device}</device>
                     </systemPropertyVariables>
                 </configuration>

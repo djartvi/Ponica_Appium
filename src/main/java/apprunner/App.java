@@ -28,6 +28,7 @@ public class App {
         setLocators(anotherApp);
     }
 
+    // выбираем приложение и задаём локаторы
     private void selectApp(String appName) {
         switch(appName) {
             case "XLSX":
@@ -59,6 +60,7 @@ public class App {
         selectApp(appName);
     }
 
+    // локаторы, которые повторяются в большинстве приложений
     public void setDefaultLocators() {
         crownButtonLocator = packageName + ":id/btn_purchase_premium";
         buttonAcceptLocator = packageName + ":id/buttonContinue";

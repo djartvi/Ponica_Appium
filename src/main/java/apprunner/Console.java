@@ -12,7 +12,7 @@ public class Console {
     private static final String ADB_COMMAND = "adb";
     private static final String SHELL_COMMAND = "shell";
     private static final String SELECT_DEVICE_PREFIX = "-s";
-    private static final String APP_PATH = "src/main/resources/1.apk";
+    private static final String APK_PATH = "src/main/resources/1.apk";
     private static String DEVICE;
     private static boolean shown;
 
@@ -69,7 +69,7 @@ public class Console {
             default:
                 if (!shown) {
                     System.err.println("Такого устройства нет в списке: " + System.getProperty("device"));
-                    shown = true;
+                    shown = true; // если ошибка показывалась, то больше не показываем
                 }
         }
 
@@ -96,6 +96,7 @@ public class Console {
         return new ProcessBuilder(adbShellCommand).start();
     }
 
+    // если в pom указать неверное устройство, то будет команда без выбора
     private static Process adbNotShellCommand(String... command) throws IOException {
         String[] adbShellCommand;
 
@@ -144,7 +145,7 @@ public class Console {
             uninstallApp(app);
         }
 
-        Process process = adbNotShellCommand("install", APP_PATH);
+        Process process = adbNotShellCommand("install", APK_PATH);
         System.out.println("Установка приложения...");
         process.waitFor();
 
@@ -179,6 +180,7 @@ public class Console {
         adbShellCommand("pm", "clear", app.getPackageName()).waitFor();
     }
 
+    // включение-отключение режима отслеживания событий в DebugView
     public static void setFirebaseDebugView(App app, boolean enable) throws IOException, InterruptedException {
         String command = enable ? app.getPackageName() : ".none.";
         adbShellCommand("setprop", "debug.firebase.analytics.app", command).waitFor();
