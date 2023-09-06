@@ -6,18 +6,15 @@ import org.openqa.selenium.By;
 
 public class OnboardingPage extends CommonFunctions {
 
-    private final By acceptButton;
-    private final By buttonClose;
-    private final By continueButton;
-    private final By privacyPolicy;
+    private final By acceptButton, closeButton, continueButton, privacyPolicy;
 
     public OnboardingPage(App app, AndroidDriver driver) {
         super(app, driver);
 
-        acceptButton = By.id(app.getButtonAcceptLocator());
-        buttonClose = By.id(app.getButtonCloseLocator());
-        continueButton = By.id(app.getButtonContinueLocator());
-        privacyPolicy = By.id(app.getPrivacyPolicyLocator());
+        acceptButton = app.getAcceptButtonLocator();
+        closeButton = app.getCloseButtonLocator();
+        continueButton = app.getContinueButtonLocator();
+        privacyPolicy = app.getPrivacyPolicyLocator();
     }
 
     public OnboardingPage clickAcceptButton() {
@@ -31,7 +28,7 @@ public class OnboardingPage extends CommonFunctions {
     }
 
     public OnboardingPage clickButtonClose() {
-        clickButton(buttonClose);
+        clickButton(closeButton);
         return this;
     }
 
@@ -42,6 +39,10 @@ public class OnboardingPage extends CommonFunctions {
 
     public boolean isValidAcceptButtonText() {
         return isElementContainsText(acceptButton, app.getButtonAcceptText());
+    }
+
+    public boolean isCloseButtonDisplayed() {
+        return isElementOnScreen(closeButton);
     }
 
     public boolean isValidPrivacyText() {

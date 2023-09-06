@@ -4,12 +4,12 @@ import apprunner.App;
 import apprunner.Console;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.nativekey.AndroidKey;
-import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class CommonFunctions {
         touchAction = new TouchAction(driver);
     }
 
-    void clickButton(By by) {
+    protected void clickButton(By by) {
         driver.findElement(by).click();
     }
 
@@ -48,7 +48,7 @@ public class CommonFunctions {
         driver.navigate().back();
     }
 
-    void clickPoint(PointOption point) {
+    protected void clickPoint(PointOption point) {
         touchAction
                 .press(point)
                 .waitAction()
@@ -81,7 +81,7 @@ public class CommonFunctions {
         swipe(rightX, upY, rightX, downY, 200);
     }
 
-    boolean isElementContainsText(By by, String text) {
+    protected boolean isElementContainsText(By by, String text) {
         WebElement parentElement = driver.findElement(by);
         String extractText = parentElement.getText();
         String[] split = text.split(" ");
@@ -104,6 +104,10 @@ public class CommonFunctions {
         return true;
     }
 
+    protected boolean isElementOnScreen(By by) {
+        return !driver.findElements(by).isEmpty();
+    }
+
     public boolean isAppOnScreen(App app) throws IOException, InterruptedException {
         Process process = Console.getCurrentActivity();
 
@@ -113,5 +117,6 @@ public class CommonFunctions {
                     .anyMatch(line -> line.contains(app.getPackageName()));
         }
     }
+
 
 }

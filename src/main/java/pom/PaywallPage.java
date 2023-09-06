@@ -12,7 +12,7 @@ public class PaywallPage extends CommonFunctions {
 
     public PaywallPage(App app, AndroidDriver driver) {
         super(app, driver);
-        buttonClose = By.id(app.getButtonCloseLocator());
+        buttonClose = app.getCloseButtonLocator();
         verticalPaywallGooglePlayLink = app.getVerticalPaywallGooglePlayLinkLocator();
     }
 

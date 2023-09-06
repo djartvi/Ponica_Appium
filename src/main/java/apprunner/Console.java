@@ -176,8 +176,8 @@ public class Console {
         adbShellCommand("am", "force-stop", app.getPackageName()).waitFor();
     }
 
-    public static void clearCache(App app) throws IOException, InterruptedException {
-        adbShellCommand("pm", "clear", app.getPackageName()).waitFor();
+    public static void clearCache(String packageName) throws IOException, InterruptedException {
+        adbShellCommand("pm", "clear", packageName).waitFor();
     }
 
     // включение-отключение режима отслеживания событий в DebugView

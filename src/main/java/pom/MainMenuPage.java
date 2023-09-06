@@ -6,15 +6,22 @@ import org.openqa.selenium.By;
 
 public class MainMenuPage extends CommonFunctions {
 
-    private final By crownButton;
+    private final By crownButtonLocator;
+    private final By tutorialLocator;
 
     public MainMenuPage(App app, AndroidDriver driver) {
         super(app, driver);
-        crownButton = By.id(app.getCrownButtonLocator());
+        crownButtonLocator = app.getCrownButtonLocator();
+        tutorialLocator = app.getTutorialLocator();
     }
 
     public void clickCrownButton() {
-        clickButton(crownButton);
+        clickButton(crownButtonLocator);
     }
 
+    public void skipTutorial() {
+        while (isElementOnScreen(tutorialLocator)) {
+            clickButton(tutorialLocator);
+        }
+    }
 }

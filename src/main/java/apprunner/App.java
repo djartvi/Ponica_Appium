@@ -2,114 +2,136 @@ package apprunner;
 
 import io.appium.java_client.touch.offset.PointOption;
 import lombok.Getter;
+import org.openqa.selenium.By;
 
 import static io.appium.java_client.touch.offset.PointOption.point;
 
 @Getter
 public class App {
 
+    private By acceptButtonLocator;
+    private By closeButtonLocator;
+    private By continueButtonLocator;
+    private By crownButtonLocator;
+    private By paywallFeature1Locator, paywallFeature2Locator, paywallFeature3Locator, paywallProgressBarLocator;
+    private By privacyPolicyLocator;
+    private By product1TrialLocator, product1PriceLocator;
+    private By progressBar1Locator, progressBar2Locator, progressBar3Locator, progressBar4Locator;
+    private By titleLocator, subtitleLocator;
+    private By tutorialLocator;
+    private PointOption verticalPaywallGooglePlayLinkLocator;
+    private String buttonAcceptText, buttonContinueText;
     private String packageName;
-    private String buttonAcceptLocator, buttonAcceptText;
-    private String buttonContinueLocator, buttonContinueText;
-    private String buttonCloseLocator;
-    private String privacyPolicyLocator, privacyPolicyText;
-    private String progressBar1Locator, progressBar2Locator, progressBar3Locator, progressBar4Locator;
-    private String product1TrialLocator, product1PriceLocator;
-    private String paywallFeature1Locator, paywallFeature2Locator, paywallFeature3Locator;
-    private String paywallProgressBarLocator, footerPaywallTextLocator;
-    private String crownButtonLocator;
-    PointOption verticalPaywallGooglePlayLinkLocator;
+    private String page1Title, page2Title, page3Title, page4Title;
+    private String paywallFooterText;
+    private String privacyPolicyText;
 
     public App() {
-        setLocators(System.getProperty("appName"));
+        selectApp(System.getProperty("appName"));
     }
 
     public App(String anotherApp) {
-        setLocators(anotherApp);
+        selectApp(anotherApp);
     }
 
     // выбираем приложение и задаём локаторы
     private void selectApp(String appName) {
         switch(appName) {
             case "XLSX":
+                packageName = Packages.XLSX_READER;
+                setDefaultLocators();
                 selectXlsxReader();
                 break;
             case "PDF":
+                packageName = Packages.PDF_READER;
+                setDefaultLocators();
                 selectPdfReader();
                 break;
             case "VoiceChangerOld":
+                packageName = Packages.VOICE_CHANGER_OLD;
+                setDefaultLocators();
                 selectOldVoiceChanger();
                 break;
             case "VoiceChangerNew":
+                packageName = Packages.VOICE_CHANGER_NEW;
+                setDefaultLocators();
                 selectNewVoiceChanger();
                 break;
             case "ClickerOld":
+                packageName = Packages.CLICKER_OLD;
+                setDefaultLocators();
                 selectClickerOld();
                 break;
             default:
-                System.out.println("000");
-//                throw new IllegalStateException("Приложения нет в списке: " + System.getProperty("appName"));
+                System.err.println("Приложения нет в списке: " + appName);
         }
     }
 
-    private void setLocators(String appName) {
-        // первый раз вызываем, чтобы определить packageName
-        selectApp(appName);
-        setDefaultLocators();
-        // ещё раз вызываем, чтобы переопределить некоторые локаторы
-        selectApp(appName);
-    }
-
     // локаторы, которые повторяются в большинстве приложений
-    public void setDefaultLocators() {
-        crownButtonLocator = packageName + ":id/btn_purchase_premium";
-        buttonAcceptLocator = packageName + ":id/buttonContinue";
-        privacyPolicyLocator = packageName + ":id/privacy";
-        buttonContinueLocator = packageName + ":id/buttonContinue";
-        buttonCloseLocator = packageName + ":id/buttonClose";
-        progressBar1Locator = packageName + ":id/page2Indicator1";
-        progressBar2Locator = packageName + ":id/page2Indicator2";
-        progressBar3Locator = packageName + ":id/page2Indicator3";
-        progressBar4Locator = packageName + ":id/page2Indicator4";
-        paywallProgressBarLocator = packageName + ":id/progressDots";
-        product1TrialLocator = packageName + ":id/product0Button";
-        product1PriceLocator = packageName + ":id/priceText";
-        paywallFeature1Locator = packageName + ":id/feature1";
-        paywallFeature2Locator = packageName + ":id/feature2";
-        paywallFeature3Locator = packageName + ":id/feature3";
+    private void setDefaultLocators() {
+        acceptButtonLocator = buildLocator("buttonContinue");
+        closeButtonLocator = buildLocator("buttonClose");
+        continueButtonLocator = buildLocator("buttonContinue");
+        crownButtonLocator = buildLocator("btn_purchase_premium");
+        paywallFeature1Locator = buildLocator("feature1");
+        paywallFeature2Locator = buildLocator("feature2");
+        paywallFeature3Locator = buildLocator("feature3");
+        paywallProgressBarLocator = buildLocator("progressDots");
+        privacyPolicyLocator = buildLocator("privacy");
+        product1PriceLocator = buildLocator("priceText");
+        product1TrialLocator = buildLocator("product0Button");
+        progressBar1Locator = buildLocator("page2Indicator1");
+        progressBar2Locator = buildLocator("page2Indicator2");
+        progressBar3Locator = buildLocator("page2Indicator3");
+        progressBar4Locator = buildLocator("page2Indicator4");
+        subtitleLocator = buildLocator("subtitle");
+        titleLocator = buildLocator("title");
+        tutorialLocator = buildLocator("tutorialText");
+        tutorialLocator = buildLocator("tutorialTextContainer");
     }
 
-    public void selectOldVoiceChanger() {
-        packageName = Packages.VOICE_CHANGER_OLD;
+    private By buildLocator(String locator) {
+        return By.id(packageName + ":id/" + locator);
+    }
+
+    private void selectOldVoiceChanger() {
         buttonAcceptText = "Согласен";
         buttonContinueText = "Продолжить";
-        footerPaywallTextLocator = "//*[@text='Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play']";
+        paywallFooterText = "Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play']";
+        packageName = Packages.VOICE_CHANGER_OLD;
+        tutorialLocator = buildLocator("tutorialTextContainer");
         verticalPaywallGooglePlayLinkLocator = point(919,2210);
     }
 
-    public void selectClickerOld() {
+    private void selectClickerOld() {
+        buttonAcceptText = "ПРИНЯТЬ";
+        paywallFooterText = "Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play";
         packageName = Packages.CLICKER_OLD;
-        buttonAcceptText = "ПРИНЯТЬ";
         privacyPolicyText = "Политикой конфиденциальности";
-        footerPaywallTextLocator = "//*[@text='Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play']";
         verticalPaywallGooglePlayLinkLocator = point(919,2210);
     }
 
-    public void selectNewVoiceChanger() {
+    private void selectNewVoiceChanger() {
+        buttonAcceptText = "ПРИНЯТЬ";
+        buttonContinueText = "ПРОДОЛЖИТЬ";
+        paywallFooterText = "Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play";
         packageName = Packages.VOICE_CHANGER_NEW;
-        privacyPolicyLocator = packageName + ":id/subtitle";
-        buttonAcceptText = "ПРИНЯТЬ";
+        page1Title = "ДОБРО ПОЖАЛОВАТЬ В ИЗМЕНИТЕЛЬ ГОЛОСА";
+        page2Title = "БОЛЕЕ 20 ГОЛОСОВЫХ ЭФФЕКТОВ";
+        page3Title = "ЗАПИСЬ ГОЛОСА";
+        page4Title = "ОБРАБОТКА ГОЛОСА";
+        privacyPolicyLocator = buildLocator("subtitle");
         privacyPolicyText = "Политикой конфиденциальности";
-        buttonContinueText = "Продолжить";
-        footerPaywallTextLocator = "//*[@text='Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play']";
+        tutorialLocator = buildLocator("tutorialTextContainer");
         verticalPaywallGooglePlayLinkLocator = point(919,2210);
+
     }
 
-    public void selectXlsxReader() {
+    private void selectXlsxReader() {
         packageName = Packages.XLSX_READER;
     }
 
-    public void selectPdfReader() {
+    private void selectPdfReader() {
         packageName = Packages.PDF_READER;
     }
 
