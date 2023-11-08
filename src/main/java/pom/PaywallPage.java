@@ -9,20 +9,25 @@ public class PaywallPage extends CommonFunctions {
 
     private final By buttonClose;
     private final PointOption verticalPaywallGooglePlayLink;
+    private final String paywallFooterText;
 
     public PaywallPage(App app, AndroidDriver driver) {
         super(app, driver);
         buttonClose = app.getCloseButtonLocator();
         verticalPaywallGooglePlayLink = app.getVerticalPaywallGooglePlayLinkLocator();
+        paywallFooterText = app.getPaywallFooterText();
     }
 
     public void clickGooglePlay() {
         clickPoint(verticalPaywallGooglePlayLink);
     }
 
-    public PaywallPage clickButtonClose() {
+    public void clickButtonClose() {
         clickButton(buttonClose);
-        return this;
     }
+
+//    public boolean isPaywallDisplayed() {
+//        isElementContainsText(paywallFooterText);
+//    }
 
 }

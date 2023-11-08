@@ -2,29 +2,30 @@ package apprunner;
 
 import io.appium.java_client.touch.offset.PointOption;
 import lombok.Getter;
+import lombok.Setter;
 import org.openqa.selenium.By;
 
 import static io.appium.java_client.touch.offset.PointOption.point;
 
 @Getter
+@Setter
 public class App {
 
-    private By acceptButtonLocator;
-    private By closeButtonLocator;
-    private By continueButtonLocator;
-    private By crownButtonLocator;
-    private By paywallFeature1Locator, paywallFeature2Locator, paywallFeature3Locator, paywallProgressBarLocator;
-    private By privacyPolicyLocator;
-    private By product1TrialLocator, product1PriceLocator;
-    private By progressBar1Locator, progressBar2Locator, progressBar3Locator, progressBar4Locator;
-    private By titleLocator, subtitleLocator;
-    private By tutorialLocator;
+    private By acceptButtonLocator,
+            closeButtonLocator,
+            continueButtonLocator,
+            crownButtonLocator,
+            paywallFeature1Locator, paywallFeature2Locator, paywallFeature3Locator, paywallProgressBarLocator,
+            privacyPolicyLocator,
+            product1TrialLocator, product1PriceLocator,
+            progressBar1Locator, progressBar2Locator, progressBar3Locator, progressBar4Locator,
+            titleLocator, subtitleLocator,
+            tutorialLocator;
     private PointOption verticalPaywallGooglePlayLinkLocator;
-    private String buttonAcceptText, buttonContinueText;
-    private String packageName;
-    private String page1Title, page2Title, page3Title, page4Title;
-    private String paywallFooterText;
-    private String privacyPolicyText;
+    private String packageName, buttonAcceptText, buttonContinueText,
+            page1Title, page2Title, page3Title, page4Title,
+            paywallFooterText,
+            privacyPolicyText;
 
     public App() {
         selectApp(System.getProperty("appName"));
@@ -67,6 +68,10 @@ public class App {
         }
     }
 
+    private By buildLocator(String locator) {
+        return By.id(packageName + ":id/" + locator);
+    }
+
     // локаторы, которые повторяются в большинстве приложений
     private void setDefaultLocators() {
         acceptButtonLocator = buildLocator("buttonContinue");
@@ -90,32 +95,10 @@ public class App {
         tutorialLocator = buildLocator("tutorialTextContainer");
     }
 
-    private By buildLocator(String locator) {
-        return By.id(packageName + ":id/" + locator);
-    }
-
-    private void selectOldVoiceChanger() {
-        buttonAcceptText = "Согласен";
-        buttonContinueText = "Продолжить";
-        paywallFooterText = "Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play']";
-        packageName = Packages.VOICE_CHANGER_OLD;
-        tutorialLocator = buildLocator("tutorialTextContainer");
-        verticalPaywallGooglePlayLinkLocator = point(919,2210);
-    }
-
-    private void selectClickerOld() {
-        buttonAcceptText = "ПРИНЯТЬ";
-        paywallFooterText = "Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play";
-        packageName = Packages.CLICKER_OLD;
-        privacyPolicyText = "Политикой конфиденциальности";
-        verticalPaywallGooglePlayLinkLocator = point(919,2210);
-    }
-
-    private void selectNewVoiceChanger() {
+    public void selectNewVoiceChanger() {
         buttonAcceptText = "ПРИНЯТЬ";
         buttonContinueText = "ПРОДОЛЖИТЬ";
         paywallFooterText = "Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play";
-        packageName = Packages.VOICE_CHANGER_NEW;
         page1Title = "ДОБРО ПОЖАЛОВАТЬ В ИЗМЕНИТЕЛЬ ГОЛОСА";
         page2Title = "БОЛЕЕ 20 ГОЛОСОВЫХ ЭФФЕКТОВ";
         page3Title = "ЗАПИСЬ ГОЛОСА";
@@ -124,15 +107,27 @@ public class App {
         privacyPolicyText = "Политикой конфиденциальности";
         tutorialLocator = buildLocator("tutorialTextContainer");
         verticalPaywallGooglePlayLinkLocator = point(919,2210);
+    }
 
+    private void selectOldVoiceChanger() {
+        buttonAcceptText = "Согласен";
+        buttonContinueText = "Продолжить";
+        paywallFooterText = "Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play']";
+        tutorialLocator = buildLocator("tutorialTextContainer");
+        verticalPaywallGooglePlayLinkLocator = point(919,2210);
+    }
+
+    private void selectClickerOld() {
+        buttonAcceptText = "ПРИНЯТЬ";
+        paywallFooterText = "Подписка будет продлеваться автоматически по той же цене и на тот же период. Отменить подписку вы можете в любой момент в Google Play";
+        privacyPolicyText = "Политикой конфиденциальности";
+        verticalPaywallGooglePlayLinkLocator = point(919,2210);
     }
 
     private void selectXlsxReader() {
-        packageName = Packages.XLSX_READER;
     }
 
     private void selectPdfReader() {
-        packageName = Packages.PDF_READER;
     }
 
 }

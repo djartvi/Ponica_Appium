@@ -5,14 +5,27 @@ import static org.junit.jupiter.api.Assertions.*;
 import pom.AdsPage;
 import pom.MainMenuPage;
 import pom.OnboardingPage;
+import pom.PaywallPage;
 
 import java.io.IOException;
 
 public class OnboardingTest extends Base {
 
+    OnboardingPage onboardingPage;
+    AdsPage adsPage;
+    MainMenuPage mainMenuPage;
+    PaywallPage paywallPage;
+
+    @BeforeEach
+    public void initialise() {
+        onboardingPage = new OnboardingPage(app, driver);
+        adsPage = new AdsPage(app, ads, driver);
+        mainMenuPage = new MainMenuPage(app, driver);
+        paywallPage = new PaywallPage(app, driver);
+    }
+
     @Test
     public void runCollapseCloseTest() throws IOException, InterruptedException {
-        OnboardingPage onboardingPage = new OnboardingPage(app, driver);
         boolean PrivacyTextDisplayed = onboardingPage.isValidPrivacyText();
 
         onboardingPage.navigateBack();
@@ -35,7 +48,6 @@ public class OnboardingTest extends Base {
 
     @Test
     public void mainFlowTest() throws IOException, InterruptedException {
-        OnboardingPage onboardingPage = new OnboardingPage(app, driver);
         boolean isCloseButtonDisplayed = onboardingPage.isCloseButtonDisplayed();
 
         // написать метод для пропуска онбординга
@@ -43,15 +55,12 @@ public class OnboardingTest extends Base {
                 .clickAcceptButton()
                 .clickContinueButton()
                 .clickContinueButton()
-                .clickContinueButton()
-                .clickButtonClose();
+                .clickContinueButton();
 
-        AdsPage adsPage = new AdsPage(app, ads, driver);
+        paywallPage.clickButtonClose();
         boolean isInterOnScreen = adsPage.isInterOnScreen();
 
         adsPage.clickCloseButton();
-
-        MainMenuPage mainMenuPage = new MainMenuPage(app, driver);
         mainMenuPage.skipTutorial();
         boolean isNativeAdOnScreen = adsPage.isNativeAdOnScreen();
 
@@ -66,6 +75,16 @@ public class OnboardingTest extends Base {
                 () -> assertTrue(isInterAfterSplashOnScreen, "Отображается интер после сплеша при повторном запуске")
         );
     }
+
+    @Test
+    public void secondTimeShowOnboard() {
+        onboardingPage
+                .clickAcceptButton()
+                .clickContinueButton()
+                .clickButtonClose();
+
+
     }
+}
 
 

@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 public class AdsPage extends CommonFunctions {
 
     private final By interLocator, interAfterSplashLocator, nativeAdLocator, openAdLocator, closeAdLocator;
-    private final int WAIT_DURATION = 6000;
+    private final int WAIT_DURATION = 7500;
 
     public AdsPage(App app, Ads ads, AndroidDriver driver) {
         super(app, driver);

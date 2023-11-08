@@ -1,38 +1,48 @@
 package apprunner;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.File;
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 
 public class Setup {
 
     private static final byte WAITING = 10;
-    private static final DesiredCapabilities DESIRED_CAPABILITIES = new DesiredCapabilities();
+    private AndroidDriver driver;
+    private AppiumDriverLocalService service;
 
-    public static void setDeviceCapabilities() {
-        DESIRED_CAPABILITIES.setCapability("platformName", "Android");
-        DESIRED_CAPABILITIES.setCapability("appium:ensureWebviewsHavePages", true);
-        DESIRED_CAPABILITIES.setCapability("appium:nativeWebScreenshot", true);
-        DESIRED_CAPABILITIES.setCapability("appium:connectHardwareKeyboard", true);
-//        DESIRED_CAPABILITIES.setCapability("appium:automationName", "UiAutomator2");
+    public static UiAutomator2Options setUiAutomator2Options() {
+        return new UiAutomator2Options()
+                .setPlatformName("Android")
+                .setAutomationName("UiAutomator2");
     }
 
     public AndroidDriver runAndroidDriver() {
-        URL remoteUrl;
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
 
         try {
-            remoteUrl = new URL("http://0.0.0.0:4723/wd/hub");
+            URL remoteUrl = URI.create("http://0.0.0.0:4723").toURL();
+
+            driver = new AndroidDriver(remoteUrl, setUiAutomator2Options());
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(WAITING));
+
+            return driver;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
-        AndroidDriver driver = new AndroidDriver(remoteUrl, DESIRED_CAPABILITIES);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(WAITING));
-
-        return driver;
     }
 
+    public void stopDriver() {
+        driver.quit();
+        service.stop();
+    }
 }
